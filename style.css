@@ -1,3 +1,36 @@
+.tg{
+	padding: 10px 40px;
+	cursor: pointer;
+	background: transparent;
+	border: 0;
+	outline: none;
+	position: relative;
+	text-align: center;
+}
+.temp__toggle {
+	width: 220px;
+	margin: 35px auto;
+	position: relative;
+	border-radius: 30px;
+    border-style: solid;
+    border-color: black;
+	background: #fff;
+}
+#btn {
+	left: 0;
+	top: 0;
+	position: absolute;
+	width: 110px;
+	height: 100%;
+	background: hsl(28, 80%, 52%);
+	border-radius: 30px;
+	transition: .5s;
+}
+
+
+
+
+
 body {
     padding: 3% 8%;
     font-family: sans-serif;

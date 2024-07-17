@@ -3,7 +3,86 @@ const cityInput = document.querySelector(".cityInput");
 const search = document.querySelector(".search");
 const location1= document.querySelector(".location");
 
+const btn = document.getElementById('btn');
+let slicedForecasts,forecastFive,cityVar;    //sliced=DayForecast   five=hourForecast cityVar=city fetched using user coordinates
+let flagLoc=0;   //To check if city fetched from cityname or user location
+
+
+async function leftClick() {
+    btn.style.left = '0';
+     document.body.style.background='linear-gradient(180deg, rgba(89, 122, 196, 0.717), rgba(7, 43, 127, 0.679  ))';
+   
+    let cityVal;
+    if(flagLoc==0){
+        cityVal=cityInput.value;     //city from search
+    }
+    else{
+        cityVal=cityVar;           //city from user location
+    }
+	
+     const weatherData3 =await  getWeatherData(cityVal);
+     const forecastData2= await getForecastData(cityVal);
+    const { main: { temp, feels_like } } = weatherData3;
+    document.getElementById("temperature").textContent =`${(temp - 273.15).toFixed(2)}°C`;
+    document.getElementById("feel").textContent =`Feels Like: ${(feels_like - 273.15).toFixed(2)}°C`;
+    const hourlyForecastTemps= document.querySelectorAll(".cel");
+
+        forecastData2.list.slice(0, hourlyForecastTemps.length).forEach((forecast, index) => {
+            const tempF = (forecast.main.temp-273.15).toFixed(2);
+            hourlyForecastTemps[index].textContent = `${tempF}°C`;
+        });
+
+   
+    const dailyForecastTemps= document.querySelectorAll(".cel1");
+    slicedForecasts.forEach((forecast,index)=>{
+        const tempF = (forecast.main.temp-273.15).toFixed(2);
+        dailyForecastTemps[index].textContent = `${tempF}°C`;
+    
+
+      
+
+    });
+}
+
+
+async function rightClick() {
+    btn.style.left = '110px';
+    document.body.style.background='linear-gradient(180deg, rgb(248, 8, 8), rgba(253, 11, 11, 0.973))';
+    let cityVal;
+    if(flagLoc==0){
+        cityVal=cityInput.value;
+    }
+    else{
+        cityVal=cityVar;
+    }
+	
+    const weatherData2 =await  getWeatherData(cityVal);
+    const forecastData2= await getForecastData(cityVal);
+    const { main: { temp, feels_like } } = weatherData2;
+    document.getElementById("temperature").textContent =`${((temp*(9/5))-459.67).toFixed(2)}°F`;
+    document.getElementById("feel").textContent =`Feels Like: ${((feels_like*(9/5))-459.67).toFixed(2)}°F`;
+
+    const hourlyForecastTemps= document.querySelectorAll(".cel");
+        forecastData2.list.slice(0, hourlyForecastTemps.length).forEach((forecast, index) => {
+            const tempF = ((forecast.main.temp * 9/5) - 459.67).toFixed(2);
+            hourlyForecastTemps[index].textContent = `${tempF}°F`;
+
+
+    });
+
+    const dailyForecastTemps= document.querySelectorAll(".cel1");
+    slicedForecasts.forEach((forecast,index)=>{
+        const tempF = ((forecast.main.temp * 9/5) - 459.67).toFixed(2);
+        dailyForecastTemps[index].textContent = `${tempF}°F`;
+    });
+
+
+}
+
 search.addEventListener("click", async (event) => {
+    flagLoc=0;     //necessary when you use search afer use your location
+    btn.style.left = '0';   //Whenever new search performed toggle rsets to Celsius
+    document.body.style.background='linear-gradient(180deg, rgba(89, 122, 196, 0.717), rgba(7, 43, 127, 0.679  ))';
     event.preventDefault();
     const city = cityInput.value;
     if (city) {
@@ -24,11 +103,15 @@ search.addEventListener("click", async (event) => {
 
 
 location1.addEventListener("click",async (event1)=>{
+    btn.style.left = '0';   //Whenever new search performed toggle rsets to Celsius
+    document.body.style.background='linear-gradient(180deg, rgba(89, 122, 196, 0.717), rgba(7, 43, 127, 0.679  ))';
     try{
+        flagLoc=1;
+       
         const coordinates = await getCoordinates();    
-        const city1 = await getLocation(coordinates.latitude, coordinates.longitude);   
-        const weatherData1 = await getWeatherData(city1);
-        const forecastData1 = await getForecastData(city1);
+         cityVar = await getLocation(coordinates.latitude, coordinates.longitude);   
+        const weatherData1 = await getWeatherData(cityVar);
+        const forecastData1 = await getForecastData(cityVar);
         displayWeatherInfo(weatherData1);
         displayForecastHInfo(forecastData1);
         displayForecastDInfo(forecastData1);
@@ -101,7 +184,7 @@ function displayForecastHInfo(data) {
         return forecastTime > currentTime;
     });
 
-    const forecastFive = filteredForecasts.slice(0, 5);
+     forecastFive = filteredForecasts.slice(0, 5);
     forecastFive.forEach(forecast => {
         const { dt_txt, main: { temp }, weather: [{ description }] } = forecast;
 
@@ -115,7 +198,7 @@ function displayForecastHInfo(data) {
 
         const timeElement = document.createElement("p");
         timeElement.className = "time";
-        timeElement.textContent = `${hour}:00 IST`; 
+        timeElement.textContent = `${hour}:00 `; 
 
         const tempElement = document.createElement("p");
         tempElement.className = "cel";
@@ -156,7 +239,7 @@ function displayForecastDInfo(data) {
         return forecastHour === 12;
     });
     
-      let slicedForecasts=filteredForecasts.slice(1,5);
+      slicedForecasts=filteredForecasts.slice(1,5);
    
     
 

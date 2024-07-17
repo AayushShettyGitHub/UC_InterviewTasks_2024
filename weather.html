@@ -15,7 +15,7 @@
             <input type="text" class="cityInput" placeholder="Enter City name..." >
            
             <button class="search">Search</button> 
-            <h5>-OR-</h5>
+            <h5>OR</h5>
             <button class="location">Use your Location</button>
         
 
@@ -26,7 +26,17 @@
             <h2 id="city">City, Country</h2>
             <div class="temp1">
                  <img src="weathericon.png" alt="weather icon" id="ikon">
+
+                 <div class="tempHolder">
+
                  <p id="temperature">0°C</p>
+                 <div class="temp__toggle">
+                    <div id="btn"></div>
+                    <button class="tg" onclick="leftClick()">°C</button>
+                    <button class="tg"  onclick="rightClick()">°F</button>
+                 </div>
+                 
+                 </div>
             </div>
             <span id="descbox">Sunny</span>
             <p id="feel">Feels Like: 0°C</p>
