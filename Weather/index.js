@@ -16,7 +16,6 @@ let flagLoc=0;   //To check if city fetched from cityname or user weatherapp__lo
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 window.addEventListener('load', () => {
-   // Ensure this class matches the dropdown element
 
   const favouritesDropDown= JSON.parse(localStorage.getItem("favorites")) || [];
   
