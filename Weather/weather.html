@@ -9,20 +9,28 @@
 </head>
 <body>
     <div class="container">
-    <div class="header">
-        <h1>WEATHER APP</h1>
-        <div class="spec">
-            <input type="text" class="cityInput" placeholder="Enter City name..." >
-           
-            <button class="search">Search</button> 
-            <h5>OR</h5>
-            <button class="location">Use your Location</button>
-        
+    <div class="weather-app__header">
 
+        <h1>WEATHER APP</h1>
+        <div class="weather-app__controls">
+            <div class="weather-app__input">
+            <button  class="weather-app__fav-button" >Add To Favourites</button>
+           
+            <input type="text" class="weatherapp__cityInput" placeholder="Enter City name..." >
+        </div>
+            <button class="weatherapp__search">Search</button> 
+            <h5>OR</h5>
+            <button class="weatherapp__location">Use your Location</button>
+           
+                <select class="weatherapp__favSelect">
+                    <option value="" disabled selected>Select Favorite</option>
+                </select>
+                
+           
         </div>
     </div>
     <main>
-         <div class="weather">
+         <div class="weatherapp__main">
             <h2 id="city">City, Country</h2>
             <div class="temp1">
                  <img src="weathericon.png" alt="weather icon" id="ikon">
@@ -32,8 +40,8 @@
                  <p id="temperature">0°C</p>
                  <div class="temp__toggle">
                     <div id="btn"></div>
-                    <button class="tg" onclick="leftClick()">°C</button>
-                    <button class="tg"  onclick="rightClick()">°F</button>
+                    <button class="toggle" onclick="leftClick()">°C</button>
+                    <button class="toggle"  onclick="rightClick()">°F</button>
                  </div>
                  
                  </div>
@@ -126,3 +134,4 @@
     
 </body>
 </html>
+

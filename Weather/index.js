@@ -1,11 +1,124 @@
 const apiKey = "31833e97b0a6d908b01209a1017c3b05";
-const cityInput = document.querySelector(".cityInput");
-const search = document.querySelector(".search");
-const location1= document.querySelector(".location");
+const weatherapp__cityInput = document.querySelector(".weatherapp__cityInput");
+const weatherapp__search = document.querySelector(".weatherapp__search");
+const location1= document.querySelector(".weatherapp__location");
+const  weatherapp__favbutton=document.querySelector(".weather-app__fav-button");
+const favouritesDropDown=document.querySelector(".weatherapp__favSelect");
 
 const btn = document.getElementById('btn');
+//cityName=document.getElementById("city").textContent;
+
 let slicedForecasts,forecastFive,cityVar;    //sliced=DayForecast   five=hourForecast cityVar=city fetched using user coordinates
-let flagLoc=0;   //To check if city fetched from cityname or user location
+let flagLoc=0;   //To check if city fetched from cityname or user weatherapp__location
+
+
+
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+window.addEventListener('load', () => {
+   // Ensure this class matches the dropdown element
+
+  const favouritesDropDown= JSON.parse(localStorage.getItem("favorites")) || [];
+  
+  
+
+ 
+  
+  favouritesDropDown.forEach((city)=>{
+  updateFavoritesDropdown();
+});
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function updateFavButton(cityName) {
+    if (favorites.includes(cityName)) {
+        weatherapp__favbutton.textContent = "Remove from Favorites";
+        weatherapp__favbutton.style.backgroundColor="red";
+    } else {
+        weatherapp__favbutton.textContent = "Add to Favorites";
+        weatherapp__favbutton.style.backgroundColor=" hsl(234, 65%, 44%)";
+    }
+    updateFavoritesDropdown();
+}
+
+function addFavorites(cityName) {
+    if (!favorites.includes(cityName)) {
+        favorites.push(cityName);
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+        updateFavButton(cityName);
+        alert(`${cityName} added to favorites`);
+        
+    }
+}
+
+function removeFavorites(cityName) {
+    if (favorites.includes(cityName)) {
+        favorites = favorites.filter(favCity => favCity !== cityName);
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+        updateFavButton(cityName);
+        alert(`${cityName} removed from favorites`);
+        
+    }
+}
+
+weatherapp__favbutton.addEventListener("click", () => {
+    if(weatherapp__cityInput.value){
+   const cityName = document.getElementById("city").textContent.split(",")[0];
+    if (favorites.includes(cityName)) {
+        removeFavorites(cityName);
+    } else {
+        addFavorites(cityName);
+    }}
+    else{
+        alert("Enter city first")
+    }
+});
+
+function updateFavoritesDropdown() {
+    const dropdown = document.querySelector(".weatherapp__favSelect");
+    dropdown.innerHTML = "";
+    favorites.forEach(city => {
+        const option = document.createElement("option");
+        option.value = city;
+        option.textContent = city;
+        dropdown.appendChild(option);
+    });
+
+    favouritesDropDown.addEventListener("change", async (event) => {
+        const selectedCity = event.target.value;
+        if (selectedCity) {
+            try {
+                weatherapp__cityInput.value=selectedCity;
+                const weatherData = await getWeatherData(selectedCity);
+                const forecastData = await getForecastData(selectedCity);
+                displayWeatherInfo(weatherData);
+                displayForecastHInfo(forecastData);
+                displayForecastDInfo(forecastData);
+            } catch (error) {
+                console.error(error);
+                displayError("An error occurred while fetching the weather data.");
+            }
+        }
+    });
+    
+}
+
+
+
+
 
 
 async function leftClick() {
@@ -14,10 +127,10 @@ async function leftClick() {
    
     let cityVal;
     if(flagLoc==0){
-        cityVal=cityInput.value;     //city from search
+        cityVal=weatherapp__cityInput.value;
     }
     else{
-        cityVal=cityVar;           //city from user location
+        cityVal=cityVar;
     }
 	
      const weatherData3 =await  getWeatherData(cityVal);
@@ -50,7 +163,7 @@ async function rightClick() {
     document.body.style.background='linear-gradient(180deg, rgb(248, 8, 8), rgba(253, 11, 11, 0.973))';
     let cityVal;
     if(flagLoc==0){
-        cityVal=cityInput.value;
+        cityVal=weatherapp__cityInput.value;
     }
     else{
         cityVal=cityVar;
@@ -79,12 +192,14 @@ async function rightClick() {
 
 }
 
-search.addEventListener("click", async (event) => {
-    flagLoc=0;     //necessary when you use search afer use your location
-    btn.style.left = '0';   //Whenever new search performed toggle rsets to Celsius
+weatherapp__search.addEventListener("click", async (event) => {
+    flagLoc=0;     //necessary when you use weatherapp__search afer use your weatherapp__location
+    btn.style.left = '0';
     document.body.style.background='linear-gradient(180deg, rgba(89, 122, 196, 0.717), rgba(7, 43, 127, 0.679  ))';
+  
+  
     event.preventDefault();
-    const city = cityInput.value;
+    const city = weatherapp__cityInput.value;
     if (city) {
         try {
             const weatherData = await getWeatherData(city);
@@ -103,11 +218,10 @@ search.addEventListener("click", async (event) => {
 
 
 location1.addEventListener("click",async (event1)=>{
-    btn.style.left = '0';   //Whenever new search performed toggle rsets to Celsius
+    flagLoc=1;
+    btn.style.left = '0';
     document.body.style.background='linear-gradient(180deg, rgba(89, 122, 196, 0.717), rgba(7, 43, 127, 0.679  ))';
-    try{
-        flagLoc=1;
-       
+    try{    
         const coordinates = await getCoordinates();    
          cityVar = await getLocation(coordinates.latitude, coordinates.longitude);   
         const weatherData1 = await getWeatherData(cityVar);
@@ -169,6 +283,7 @@ function displayWeatherInfo(data) {
     document.getElementById("feel").textContent = `Feels Like : ${(feels_like - 273.15).toFixed(2)}°C`;
     document.getElementById("descbox").textContent = `${description.toUpperCase()}`;  
     iconDisplay.src=iconurlImg;
+    updateFavButton(city);
 
   
     

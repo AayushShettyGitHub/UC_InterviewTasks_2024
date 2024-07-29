@@ -1,4 +1,4 @@
-.tg{
+.toggle{
 	padding: 10px 40px;
 	cursor: pointer;
 	background: transparent;
@@ -6,6 +6,7 @@
 	outline: none;
 	position: relative;
 	text-align: center;
+    font-weight: bolder;
 }
 .temp__toggle {
 	width: 220px;
@@ -26,6 +27,15 @@
 	border-radius: 30px;
 	transition: .5s;
 }
+.weatherapp__favSelect {
+    padding: 5px;
+    margin-left: 10px;
+}
+#star{
+    height: 15px;
+    width:15px;
+}
+
 
 
 
@@ -40,22 +50,31 @@ body {
     background-size: cover;
     }
     html {
-    height: 145vh;
+    height:170vh;
     margin: 0;
     padding: 0;
     font-family: sans-serif;
     }
-    .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    .weather-app__header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap:45px;
+
     }
-    .header h1 {
+    .weather-app__header h1 {
     color: rgb(255, 153, 0);
+    font-size: 4rem;
     text-decoration: underline;
     font-family: sans-serif;
     }
-    .cityInput {
+
+    .weather-app__header h1 img{
+        height:40px;
+        width:40px;
+        margin:0px 20px;
+    }
+    .weatherapp__cityInput {
     font-size: 18px;
     padding: 5px 10px;
     outline: none;
@@ -63,30 +82,45 @@ body {
     border-radius: 15px;
     background: aliceblue;
     }
-    .search, .location {
-    background: none;
-    padding: 5px 20px;
-    color: aliceblue;
-    outline: none;
-    background: hsl(234, 65%, 44%);
-    font-size: 17px;
-    border-radius: 15px;
-    cursor: pointer;
-    border: none;
-    
+    .weatherapp__cityInput, .weatherapp__search, .weatherapp__location, .weatherapp__favSelect,.weather-app__fav-button {
+        font-size: 18px;
+        padding: 5px 10px;
+        outline: none;
+        border: none;
+        border-radius: 15px;
+        background: aliceblue;
+        margin-bottom: 10px;
     }
-    .search:hover, .location:hover {
+    
+
+    
+    .weatherapp__search, .weatherapp__location, .weather-app__fav-button {
+        background: hsl(234, 65%, 44%);
+        color: aliceblue;
+        cursor: pointer;
+        border: none;
+        padding: 5px 10px;
+    }
+   
+    .weatherapp__search:hover, .weatherapp__location:hover,.weather-app__fav-button:hover {
     background: hsl(234, 65%, 54%);
     }
+    
     h5 {
     color: aliceblue;
     }
-    .spec {
-    display: flex;
-    flex-direction: row;
-    gap: 5vw;
+    .weather-app__controls {
+        display: flex;
+        align-items: center;
+        gap: 40px;
     }
-    .weather {
+
+    .weather-app__input{
+        display: flex;
+        flex-direction: row;
+        gap:10px;
+    }
+    .weatherapp__main {
     text-align: center;
     color: aliceblue;
     }
@@ -101,7 +135,7 @@ body {
     margin: 0px 50px;
     color: aliceblue;
     }
-    .weather img {
+    .weatherapp__main img {
     width: 11vw;
     height: 22vh;
     border-radius: 30%;
@@ -147,8 +181,8 @@ body {
     }
     .divider1 {
         width: 5px; 
-        height: 200px;
         background: rgb(245, 128, 25);
+        height:200px;
         margin: 20px auto;
         border-radius: 10px; 
     }
@@ -182,7 +216,7 @@ body {
     padding-right: 0.5rem;
     }
     @media (max-width: 768px) {
-    .header {
+    .weather-app__header {
     flex-direction: column;
     align-items: center;
     text-align: center;
@@ -195,11 +229,11 @@ body {
     margin-bottom:1px;
     }
     
-    .cityInput, .search, .location {
+    .weatherapp__cityInput, .weatherapp__search, .weatherapp__location {
     width: 90%;
     margin-bottom: 10px;
     }
-    .spec {
+    .weather-app__controls {
     flex-direction: column;
     align-items: center;
     }
@@ -207,7 +241,7 @@ body {
     font-size: 40px;
     
     }
-    .weather img {
+    .weatherapp__main img {
     width: 60px;
     height: 60px;
     }
@@ -219,7 +253,8 @@ body {
     }
     
     .divider1, .divider2 {
-    width: 90%; 
+    width: 90%;
+    height:5px;
     }
     main {
     grid-template-columns: 1fr;
@@ -231,12 +266,12 @@ body {
     font-size: 16px;
     padding: 5px 10px;
     }
-    .weather {
+    .weatherapp__main {
     display: flex;
     flex-direction: column;
     align-items: center;
     }
-    .weather img {
+    .weatherapp__main img {
     width: 60px;
     height: 60px;
     margin-bottom: 10px;
@@ -253,3 +288,5 @@ body {
     padding: 5px;
     }
     }
+
+   
