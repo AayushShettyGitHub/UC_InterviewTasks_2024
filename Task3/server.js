@@ -17,7 +17,7 @@ function getHouse() {
   return houses[Math.floor(Math.random() * houses.length)];
 }
 
-mongoose.connect(url,).then(() => {
+mongoose.connect(url).then(() => {
   console.log('Connected to MongoDB');
 }).catch(e => {
   console.error('Error connecting to MongoDB:', e);
